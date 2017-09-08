@@ -1,0 +1,93 @@
+services:
+  - postgres
+  
+variables:
+  POSTGRES_DB: $SERIALBOX_DB
+  POSTGRES_USER: $SERIALBOX_USER
+  POSTGRES_PASSWORD: $SERIALBOX_PASSWORD
+
+before_script:
+  - bash
+  # install ssh-agent
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - 'which bash || ( apt-get update -y && apt-get install bash -y )'
+  - apt-get update -y && apt-get install git python-psycopg2 -y
+  # run ssh-agent
+  - eval $(ssh-agent -s)
+  # add ssh key stored in SSH_PRIVATE_KEY variable to the agent store
+  # if you are running your tests locally you can set this variable
+  # by executing export SERIALBOX_SSH_KEY=$(cat ~/.ssh/[your private key file here])
+  # to create the environment variable
+  # disable host key checking (NOTE: makes you susceptible to man-in-the-middle attacks)
+  # WARNING: use only in docker container, if you use it with shell you will overwrite your user's ssh config
+  - mkdir -p ~/.ssh
+  - ssh-add <(echo "$SERIALBOX_SSH_KEY")
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+stages:
+    - test-python
+    - build-docs
+    - deploy
+
+python3_5_unit_test:
+  image: seriallab/python3.5dev
+  stage: test-python
+  script:
+  - git clone git@gitlab.com:serial-lab/serial-box.git ./serialbox
+  - pip install -e ./serialbox
+  - pip install coverage
+  - pip install python-dotenv
+  - pip install psycopg2
+  - python manage.py migrate
+  - python manage.py collectstatic --noinput
+  - coverage run manage.py test random_flavorpack
+  - coverage report -m
+  - coverage html
+  artifacts:
+    paths:
+      - htmlcov/
+  
+python2_7_unit_test:
+  image: seriallab/python2.7dev
+  stage: test-python
+  script:
+  - git clone git@gitlab.com:serial-lab/serial-box.git ./serialbox
+  - pip install -e ./serialbox
+  - pip install coverage
+  - pip install python-dotenv
+  - pip install psycopg2
+  - python manage.py migrate
+  - python manage.py collectstatic --noinput
+  - coverage run manage.py test random_flavorpack
+  - coverage report -m
+  - coverage html
+  artifacts:
+    paths:
+      - htmlcov/
+
+deploy:
+    stage: deploy
+    image: docker:latest
+    services:
+    - docker:dind
+    before_script:
+    - echo "override the global before script"
+    script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/serial-lab/random-flavorpack:latest .
+    - docker push registry.gitlab.com/serial-lab/random-flavorpack:latest
+    only:
+    - tags
+    environment: production
+    
+pages:
+    image: seriallab/python3.5dev
+    stage: build-docs
+    script:
+    - pip install mkdocs
+    - mkdocs build -d ./public
+    artifacts:
+        paths:
+        - public
+    only:
+    - tags
