@@ -33,7 +33,7 @@ python3_5_unit_test:
   image: seriallab/python3.5dev
   stage: test-python
   script:
-  - git clone git@gitlab.com:serial-lab/serial-box.git ./serialbox
+  - git clone git@gitlab.com:serial-lab/serialbox.git ./serialbox
   - pip install -e ./serialbox
   - pip install coverage
   - pip install python-dotenv
@@ -51,7 +51,7 @@ python2_7_unit_test:
   image: seriallab/python2.7dev
   stage: test-python
   script:
-  - git clone git@gitlab.com:serial-lab/serial-box.git ./serialbox
+  - git clone git@gitlab.com:serial-lab/serialbox.git ./serialbox
   - pip install -e ./serialbox
   - pip install coverage
   - pip install python-dotenv
