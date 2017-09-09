@@ -126,9 +126,3 @@ LOGGING_CONFIG = None
 # import the django rest framework settings
 from serialbox.serialbox_settings import REST_FRAMEWORK
 
-try:
-    from local_settings import *
-except ImportError as e:
-    pass
-
-import logsettings

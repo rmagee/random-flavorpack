@@ -17,13 +17,11 @@
     along with RandomFlavorpack.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import sys
-
-from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.core.management import call_command
+call_command('makemigrations', interactive=False)
 
-from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework import status
 
