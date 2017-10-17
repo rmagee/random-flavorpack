@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/serial-lab/serial-box
+FROM registry.gitlab.com/serial-lab/serialbox
 
 RUN mkdir -p /usr/src/app/random_flavorpack
 COPY . /usr/src/app/random_flavorpack
