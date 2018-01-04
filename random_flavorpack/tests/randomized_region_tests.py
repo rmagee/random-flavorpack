@@ -37,11 +37,11 @@ logger = logging.getLogger('random_unit_tests')
 
 class RandomTests(APITestCase):
     def setUp(self):
-        user = User.objects.create(username='testuser',
+        user = User.objects.create_user(username='testuser',
                                    password='unittest',
                                    email='testuser@seriallab.local')
         self.logging_setup()
-        self.client.force_login(user)
+        self.client.force_authenticate(user=user)
         self.create_pool()
         self.create_region()
 
