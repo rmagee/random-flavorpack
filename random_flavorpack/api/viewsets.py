@@ -1,5 +1,5 @@
 '''
-    Copyright 2016 SerialLab, LLC
+    Copyright 2018 SerialLab, CORP
 
     This file is part of RandomFlavorpack.
 
@@ -64,19 +64,19 @@ class RandomizedRegionViewSet(viewsets.SerialBoxModelViewSet, FormMixin):
             raise RegionBoundaryException(v.detail)
 
 
-randomized_region_list = RandomizedRegionViewSet.as_view({
-    'get': 'list'
-})
-randomized_region_create = RandomizedRegionViewSet.as_view({
-    'post': 'create'
-})
-randomized_region_detail = RandomizedRegionViewSet.as_view({
-    'get': 'retrieve'
-})
-randomized_region_modify = RandomizedRegionViewSet.as_view({
-    'put': 'partial_update',
-    'delete': 'destroy'
-})
-randomized_region_form = RandomizedRegionViewSet.as_view({
-    'get': 'form'
-})
+# randomized_region_list = RandomizedRegionViewSet.as_view({
+#     'get': 'list'
+# })
+# randomized_region_create = RandomizedRegionViewSet.as_view({
+#     'post': 'create'
+# })
+# randomized_region_detail = RandomizedRegionViewSet.as_view({
+#     'get': 'retrieve'
+# })
+# randomized_region_modify = RandomizedRegionViewSet.as_view({
+#     'put': 'partial_update',
+#     'delete': 'destroy'
+# })
+# randomized_region_form = RandomizedRegionViewSet.as_view({
+#     'get': 'form'
+# })

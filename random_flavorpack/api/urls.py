@@ -1,5 +1,5 @@
 '''
-    Copyright 2016 SerialLab, LLC
+    Copyright 2018 SerialLab, CORP
 
     This file is part of RandomFlavorpack.
 
@@ -20,21 +20,24 @@
 from django.conf.urls import url
 
 from random_flavorpack.api import viewsets
+from random_flavorpack.api.routers import router
 
-urlpatterns = [
-    url(r'^randomized-regions/$',
-        viewsets.randomized_region_list,
-        name='randomized-region-list'),
-    url(r'^randomized-region-create/$',
-        viewsets.randomized_region_create,
-        name='randomized-region-create'),
-    url(r'^randomized-region-detail/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
-        viewsets.randomized_region_detail,
-        name='randomized-region-detail'),
-    url(r'^randomized-region-modify/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
-        viewsets.randomized_region_modify,
-        name='randomized-region-modify'),
-    url(r'^randomized-region-form/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
-        viewsets.randomized_region_form,
-        name='randomized-region-form'),
-]
+urlpatterns = router.urls
+
+# urlpatterns = [
+#     url(r'^randomized-regions/$',
+#         viewsets.randomized_region_list,
+#         name='randomized-region-list'),
+#     url(r'^randomized-region-create/$',
+#         viewsets.randomized_region_create,
+#         name='randomized-region-create'),
+#     url(r'^randomized-region-detail/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
+#         viewsets.randomized_region_detail,
+#         name='randomized-region-detail'),
+#     url(r'^randomized-region-modify/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
+#         viewsets.randomized_region_modify,
+#         name='randomized-region-modify'),
+#     url(r'^randomized-region-form/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
+#         viewsets.randomized_region_form,
+#         name='randomized-region-form'),
+# ]

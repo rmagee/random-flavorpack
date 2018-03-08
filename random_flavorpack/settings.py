@@ -1,5 +1,5 @@
 '''
-    Copyright 2016 SerialLab, LLC
+    Copyright 2018 SerialLab, CORP
 
     This file is part of RandomFlavorpack.
 
@@ -35,7 +35,7 @@ SECRET_KEY = 'l$+#s2al#vz27ai)q4of)#$oni9&lk&)=0%tnh_5donkkzddnm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 

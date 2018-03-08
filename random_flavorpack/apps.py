@@ -1,5 +1,5 @@
 '''
-    Copyright 2016 SerialLab, LLC
+    Copyright 2018 SerialLab, CORP
 
     This file is part of RandomFlavorpack.
 
@@ -54,4 +54,4 @@ class RandomFlavorpackConfig(FlavorPackApp):
 
     @property
     def api_urls(self):
-        return ['randomized-region-list']
+        return ['randomized-regions-list']
