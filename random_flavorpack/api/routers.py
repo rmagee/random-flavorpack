@@ -13,8 +13,9 @@
 #
 # Copyright 2015 Rob Magee.  All rights reserved.
 
-from rest_framework.routers import DefaultRouter, Route
+from rest_framework.routers import DefaultRouter
 from random_flavorpack.api.viewsets import RandomizedRegionViewSet
+
 
 
 router = DefaultRouter()

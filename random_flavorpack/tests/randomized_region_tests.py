@@ -88,7 +88,7 @@ class RandomTests(APITestCase):
             "start": 1000001,
             "current": 1000001
         }
-        url = reverse('randomized-region-create')
+        url = reverse('randomized-regions-list')
         response = self.client.post(url, data, format='json')
         logger.info(response.content)
         self.assertEqual(response.status_code, assert_status)
@@ -109,7 +109,7 @@ class RandomTests(APITestCase):
             "start": 1000001,
             "current": 1000001
         }
-        url = reverse('randomized-region-create')
+        url = reverse('randomized-regions-list')
         response = self.client.post(url, data, format='json')
         logger.info(response.content)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -130,7 +130,7 @@ class RandomTests(APITestCase):
             "start": 1000001,
             "current": 1000001
         }
-        url = reverse('randomized-region-create')
+        url = reverse('randomized-regions-list')
         response = self.client.post(url, data, format='json')
         logger.info(response.content)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

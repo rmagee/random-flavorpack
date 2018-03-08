@@ -43,14 +43,15 @@ class RandomGenerator(Generator):
         #: :type region: RandomizedRegion
         response.type = 'random'
         number_list = self.get_random_numbers(
-            region.start,
+            region.current or region.start,
             region.min,
             region.max)
         numbers = [next(number_list) for x in range(size)]
-        state = next(number_list)
+        current = next(number_list)
         # TODO: enforce size boundaries
-        region.state = state
+        region.current = current
         region.remaining = region.remaining - size
+        region.save()
         self.set_number_list(response, numbers)
 
     def get_settings_module(self):
