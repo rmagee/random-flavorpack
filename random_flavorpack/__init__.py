@@ -19,3 +19,4 @@
 
 default_app_config = 'random_flavorpack.apps.RandomFlavorpackConfig'
 
+__version__ = '0.2.0'
