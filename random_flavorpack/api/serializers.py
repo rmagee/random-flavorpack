@@ -40,7 +40,7 @@ randomizedregion_set = serializers.SlugRelatedField(
 randomizedregion_hyperlink_set = serializers.HyperlinkedRelatedField(
     many=True,
     read_only=True,
-    view_name='randomized-region',
+    view_name='randomized-regions-detail',
     lookup_field='machine_name',
 )
 
