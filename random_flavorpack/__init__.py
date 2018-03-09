@@ -18,3 +18,4 @@
 '''
 
 default_app_config = 'random_flavorpack.apps.RandomFlavorpackConfig'
+
