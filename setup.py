@@ -3,8 +3,8 @@ from setuptools import setup
 setup(
     name='random_flavorpack',
     version='0.2.3',
-    packages=['', 'api', 'tests', 'generators', 'migrations'],
-    package_dir={'': 'random_flavorpack'},
+    packages=['random_flavorpack'],
+    include_package_data=True,
     url='https://gitlab.com/serial-lab/random-flavorpack',
     license='GPLv3',
     author='SerialLab Corp',
