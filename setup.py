@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='random_flavorpack',
-    version='0.2.2',
+    version='0.2.3',
     packages=['', 'api', 'tests', 'generators', 'migrations'],
     package_dir={'': 'random_flavorpack'},
     url='https://gitlab.com/serial-lab/random-flavorpack',
