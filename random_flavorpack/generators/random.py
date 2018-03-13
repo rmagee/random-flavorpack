@@ -76,7 +76,7 @@ class RandomGenerator(Generator):
         if maximum <= minimum:
             raise ValueError(
                 _("The maximum can not be less than the minimum."))
-        if start < minimum or start >= maximum:
+        if start < minimum or start > maximum:
             raise ValueError(
                 _("The start must be between the minimum and maximum!"))
         rnrange = maximum - minimum
