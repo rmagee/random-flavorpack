@@ -83,9 +83,9 @@ class RandomizedRegion(sb_models.Region):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if not self.id:
-            self.start = randint(self.min, self.max)
-            self.current = self.start
-            self.remaining = self.max - self.min
+            self.start = self.start or randint(self.min, self.max)
+            self.current = self.current or self.start
+            self.remaining = self.remaining or self.max - self.min
             self._establish_order()
 
         check_randomized_region_boundaries(self)
