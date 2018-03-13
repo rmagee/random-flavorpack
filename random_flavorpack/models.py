@@ -82,20 +82,32 @@ class RandomizedRegion(sb_models.Region):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        check_randomized_region_boundaries(self)
         if not self.id:
             self.start = randint(self.min, self.max)
             self.current = self.start
             self.remaining = self.max - self.min
+            self._establish_order()
+
+        check_randomized_region_boundaries(self)
         sb_models.Region.save(
             self,
-            force_insert=False,
-            force_update=False,
-            using=None,
-            update_fields=None)
+            force_insert,
+            force_update,
+            using,
+            update_fields)
 
     def clean(self):
         check_randomized_region_boundaries(self)
+
+    def _establish_order(self):
+        '''
+        Establish order where there is none. :-)
+        '''
+        regions = RandomizedRegion.objects.filter(pool=self.pool).aggregate(
+            models.Max('order')
+        )
+        val = regions['order__max'] or 0 + 1
+        self.order = val + 1
 
     class Meta(object):
         app_label = 'serialbox'
