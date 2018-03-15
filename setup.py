@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='random_flavorpack',
     version='0.2.5',
-    packages=['random_flavorpack'],
+    packages=find_packages(),
     include_package_data=True,
     url='https://gitlab.com/serial-lab/random-flavorpack',
     license='GPLv3',
