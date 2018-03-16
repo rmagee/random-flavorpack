@@ -22,6 +22,7 @@ from random import randint
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator
 
 from serialbox import models as sb_models
 from random_flavorpack.utils import check_randomized_region_boundaries
@@ -39,16 +40,19 @@ class RandomizedRegion(sb_models.Region):
         verbose_name=_('Minimum'),
         help_text=_('The minimum value in the randomized region.'),
         default=1,
+        validators=[MinValueValidator(0)],
         null=False,
         blank=False)
     max = models.BigIntegerField(
         verbose_name=_('Maximum'),
         help_text=_('The maximum value in the randomized region.'),
         default=sys.maxsize,
+        validators=[MinValueValidator(0)],
         null=False,
         blank=False)
     start = models.BigIntegerField(
         verbose_name=_('Start Number'),
+        validators=[MinValueValidator(0)],
         help_text=_(
             'The start number will fall somewhere in between the '
             'minimum and maximum numbers.  This number will be randomly'
@@ -64,14 +68,16 @@ class RandomizedRegion(sb_models.Region):
                     'can be used to re-position the random number generator '
                     'where it left off.'),
         null=True,
-        blank=True
+        blank=True,
+        validators=[MinValueValidator(0)]
     )
     remaining = models.BigIntegerField(
         verbose_name=_('Remaining'),
         help_text=_('The number of remaining serial numbers in this randomized '
                     'region.'),
         null=True,
-        blank=True
+        blank=True,
+        validators=[MinValueValidator(0)],
     )
 
     def __str__(self):
