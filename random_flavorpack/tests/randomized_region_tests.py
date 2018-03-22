@@ -20,9 +20,10 @@
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.management import call_command
-call_command('makemigrations', interactive=False)
 
-from rest_framework.test import APITestCase
+call_command('makemigrations', interactive=False)
+import collections
+from rest_framework.test import APITestCase, APIRequestFactory
 from rest_framework import status
 
 from serialbox.utils import get_region_by_machine_name
@@ -38,8 +39,8 @@ logger = logging.getLogger('random_unit_tests')
 class RandomTests(APITestCase):
     def setUp(self):
         user = User.objects.create_user(username='testuser',
-                                   password='unittest',
-                                   email='testuser@seriallab.local')
+                                        password='unittest',
+                                        email='testuser@seriallab.local')
         self.logging_setup()
         self.client.force_authenticate(user=user)
         self.create_pool()
@@ -95,7 +96,7 @@ class RandomTests(APITestCase):
         return response
 
     def test_create_region_bad_start(self, data=None,
-                            assert_status=status.HTTP_201_CREATED):
+                                     assert_status=status.HTTP_201_CREATED):
         '''
         Ensure we can create a test region for the created pool instance
         '''
@@ -116,7 +117,7 @@ class RandomTests(APITestCase):
         return response
 
     def test_create_region_bad_min(self, data=None, \
-                                       assert_status=status.HTTP_201_CREATED):
+                                   assert_status=status.HTTP_201_CREATED):
         '''
         Ensure we can create a test region for the created pool instance
         '''
@@ -162,9 +163,36 @@ class RandomTests(APITestCase):
     def test_generate_10_pseudo_random(self):
         state = 23423
         rg = RandomGenerator()
-        nums = rg.get_random_numbers(state, 1, 999999999999)
-        numbers = [next(nums) for x in range(10)]
-        state = next(nums)
+        numbers = \
+            rg.get_random_numbers(state, 1, 999999999999,
+                                  size=10, shuffle_numbers=False)[0]
         logger.info(numbers)
-        self.assertTrue(set(numbers) == {23423, 687196089791, 927714708335, 876175001015, 850405147355, 837520220525,
-                                         831077757110, 415538878555, 620087086125, 997239621142})
+        self.assertTrue(
+            set(numbers) == {23423, 687196089791, 927714708335, 876175001015,
+                             850405147355, 837520220525,
+                             831077757110, 415538878555, 620087086125,
+                             997239621142})
+
+    def test_shuffle(self):
+        state = 23423
+        rg = RandomGenerator()
+        numbers = rg.get_random_numbers(state, 1, 999999999999, size=10,
+                                        shuffle_numbers=True)[0]
+        compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
+        orig = [23423, 687196089791, 927714708335, 876175001015,
+                850405147355, 837520220525,
+                831077757110, 415538878555, 620087086125,
+                997239621142]
+        self.assertFalse(orig[1] == numbers[1] and orig[2] == numbers[2] and
+                         orig[3] == orig[3] and orig[4] == orig[4] and
+                         orig[5] == orig[5] and
+                         orig[6] == orig[6] and
+                         orig[7] == orig[7] and
+                         orig[8] == orig[8] and
+                         orig[9] == orig[9],
+                         'The list has not been shuffled')
+
+    def test_get_regions(self):
+        factory = APIRequestFactory()
+        ret = factory.get('/randomized-regions/')
+        print(ret)

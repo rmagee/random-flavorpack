@@ -20,7 +20,7 @@
 import math
 import logging
 from gettext import gettext as _
-
+from random import shuffle
 from serialbox.generators.common import Generator
 from random_flavorpack.generators.common import TAPS
 from random_flavorpack import random_flavorpack_settings as settings
@@ -36,19 +36,19 @@ class RandomGenerator(Generator):
     using a standard linear feedback shift register.
     '''
 
-    def generate(self, request, response, region, size):
+    def generate(self, request, response, region, size, shuffle_numbers=True):
         '''
         Generates the randomized values based on the region supplied.
         '''
         #: :type region: RandomizedRegion
         response.type = 'random'
-        number_list = self.get_random_numbers(
+        numbers, current = self.get_random_numbers(
             region.current or region.start,
             region.min,
-            region.max)
-        numbers = [next(number_list) for x in range(size)]
-        current = next(number_list)
-        # TODO: enforce size boundaries
+            region.max,
+            size,
+            shuffle_numbers
+        )
         region.current = current
         region.remaining = region.remaining - size
         region.save()
@@ -113,8 +113,14 @@ class RandomGenerator(Generator):
             if start <= rnrange:
                 yield start + minimum - 1
 
-    def get_random_numbers(self, start, minimum, maximum):
+    def get_random_numbers(self, start, minimum, maximum, size,
+                           shuffle_numbers=False):
         rnrange = self._validate_range(start, minimum, maximum)
         # calculate how many bits the register needs to be
         degree = self._get_degree(maximum, rnrange)
-        return self._generate_list(start, minimum, rnrange, degree)
+        number_gen = self._generate_list(start, minimum, rnrange, degree)
+        numbers = [next(number_gen) for x in range(size)]
+        current = next(number_gen)
+        if shuffle_numbers:
+            shuffle(numbers)
+        return numbers, current
