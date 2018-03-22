@@ -41,7 +41,7 @@ python3_5_unit_test:
   - python manage.py makemigrations --noinput
   - python manage.py migrate
   - python manage.py collectstatic --noinput
-  - coverage run manage.py test random_flavorpack
+  - coverage run manage.py test random_flavorpack.tests.randomized_region_tests
   - coverage report -m
   - coverage html
   artifacts:
@@ -60,7 +60,7 @@ python3_6_unit_test:
   - python manage.py makemigrations --noinput
   - python manage.py migrate
   - python manage.py collectstatic --noinput
-  - coverage run manage.py test random_flavorpack
+  - coverage run manage.py test random_flavorpack.tests.randomized_region_tests
   - coverage report -m
   - coverage html
   artifacts:
