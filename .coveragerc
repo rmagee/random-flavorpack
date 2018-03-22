@@ -1,0 +1,7 @@
+[run]
+omit =
+    */__init__.py/*
+    */migrations/*
+    serialbox/*
+source =
+    random_flavorpack
