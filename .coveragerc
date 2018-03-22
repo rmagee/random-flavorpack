@@ -2,6 +2,6 @@
 omit =
     */__init__.py/*
     */migrations/*
-    serialbox/*
+    */serialbox/*
 source =
     random_flavorpack
