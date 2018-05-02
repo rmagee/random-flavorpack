@@ -13,8 +13,9 @@ setup(
     keywords=('seriallab, quartet, randomized, numbers, serialbox, '
              'level-4 quartet'),
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Framework :: SerialBox',
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
