@@ -31,6 +31,9 @@ from serialbox.utils import get_region_by_machine_name
 from random_flavorpack.generators.random import RandomGenerator
 
 import logging
+from random_flavorpack.management.commands.load_random_flavorpack_auth import \
+    Command
+from django.contrib.auth.models import User, Permission, Group
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('random_unit_tests')
@@ -41,10 +44,17 @@ class RandomTests(APITestCase):
         user = User.objects.create_user(username='testuser',
                                         password='unittest',
                                         email='testuser@seriallab.local')
-        self.logging_setup()
+        Command().handle()
+        for permission in Permission.objects.all():
+            print(permission.name, permission.codename)
+        group = Group.objects.get(name='Pool API Access')
+        user.groups.add(group)
+        user.save()
         self.client.force_authenticate(user=user)
         self.create_pool()
         self.create_region()
+        self.user = user
+        self.logging_setup()
 
     def logging_setup(self):
         import logging

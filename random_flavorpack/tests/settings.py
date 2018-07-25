@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
 load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
@@ -126,3 +126,7 @@ LOGGING_CONFIG = None
 # import the django rest framework settings
 from serialbox.serialbox_settings import REST_FRAMEWORK
 
+try:
+    from random_flavorpack.tests.local_settings import *
+except ImportError:
+    pass
