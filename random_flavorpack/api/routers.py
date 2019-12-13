@@ -20,5 +20,5 @@ from random_flavorpack.api.viewsets import RandomizedRegionViewSet
 
 router = DefaultRouter()
 router.register(r'randomized-regions', RandomizedRegionViewSet,
-                base_name='randomized-regions')
+                basename='randomized-regions')
 urlpatterns = router.urls
