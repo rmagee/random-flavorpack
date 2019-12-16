@@ -21,7 +21,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.management import call_command
 
-call_command('makemigrations', interactive=False)
 import collections
 from rest_framework.test import APITestCase, APIRequestFactory
 from rest_framework import status
