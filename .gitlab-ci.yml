@@ -1,86 +1,87 @@
 services:
   - postgres
-  
+
 variables:
   POSTGRES_DB: $SERIALBOX_DB
   POSTGRES_USER: $SERIALBOX_USER
   POSTGRES_PASSWORD: $SERIALBOX_PASSWORD
 
 stages:
-    - test-python
-    - build-docs
-    - deploy
+  - test-python
+  - build-docs
+  - deploy
 
 python3_5_unit_test:
   image: seriallab/python3.5dev
   stage: test-python
   script:
-  - pip install -r ./requirements_test.txt
-  - python manage.py migrate
-  - python manage.py collectstatic --noinput
-  - coverage run manage.py test random_flavorpack.tests.randomized_region_tests
-  - coverage report -m
-  - coverage html
+    - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR/random_flavorpack
+    - pip install -r ./requirements_test.txt
+    - python manage.py migrate
+    - python manage.py collectstatic --noinput
+    - coverage run manage.py test random_flavorpack.tests.randomized_region_tests
+    - coverage report -m
+    - coverage html
   artifacts:
     paths:
       - htmlcov/
-  
+
 python3_6_unit_test:
   image: seriallab/python3.6dev
   stage: test-python
   script:
-  - pip install -r ./requirements_test.txt
-  - python manage.py migrate
-  - python manage.py collectstatic --noinput
-  - coverage run manage.py test random_flavorpack.tests.randomized_region_tests
-  - coverage report -m
-  - coverage html
+    - pip install -r ./requirements_test.txt
+    - python manage.py migrate
+    - python manage.py collectstatic --noinput
+    - coverage run manage.py test random_flavorpack.tests.randomized_region_tests
+    - coverage report -m
+    - coverage html
   artifacts:
     paths:
       - htmlcov/
 
 deploy:
-    stage: deploy
-    image: docker:latest
-    services:
+  stage: deploy
+  image: docker:latest
+  services:
     - docker:dind
-    before_script:
+  before_script:
     - echo "override the global before script"
-    script:
+  script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - docker build -t registry.gitlab.com/serial-lab/random-flavorpack:latest .
     - docker push registry.gitlab.com/serial-lab/random-flavorpack:latest
-    only:
+  only:
     - tags
-    environment: production
+  environment: production
 
 deploy_pypi:
-    image: seriallab/python3.6dev
-    stage: deploy
-    environment:
-      name: deployment
-      url: https://pypi.org/
-    script:
-      - echo "[distutils]" >> ~/.pypirc
-      - echo "index-servers = " >> ~/.pypirc
-      - echo "[pypi]" >> ~/.pypirc
-      - echo "username=$PYPI_USER" >> ~/.pypirc
-      - echo "password=$PYPI_PASSWORD" >> ~/.pypirc
-      - python setup.py check sdist bdist_wheel upload
-      - rm ~/.pypirc
-    only:
-      - tags
-      #- /\d+\.\d+\.\d+([abc]\d*)?$/
-    
+  image: seriallab/python3.6dev
+  stage: deploy
+  environment:
+    name: deployment
+    url: https://pypi.org/
+  script:
+    - echo "[distutils]" >> ~/.pypirc
+    - echo "index-servers = " >> ~/.pypirc
+    - echo "[pypi]" >> ~/.pypirc
+    - echo "username=$PYPI_USER" >> ~/.pypirc
+    - echo "password=$PYPI_PASSWORD" >> ~/.pypirc
+    - python setup.py check sdist bdist_wheel upload
+    - rm ~/.pypirc
+  only:
+    - tags
+    #- /\d+\.\d+\.\d+([abc]\d*)?$/
+
 pages:
-    image: seriallab/python3.5dev
-    stage: build-docs
-    script:
+  image: seriallab/python3.5dev
+  stage: build-docs
+  script:
     - pip install mkdocs
     - mkdocs build -d ./public
-    artifacts:
-        paths:
-        - public
-        expire_in: 1d
-    only:
+  artifacts:
+    paths:
+      - public
+    expire_in: 1d
+  only:
     - tags
