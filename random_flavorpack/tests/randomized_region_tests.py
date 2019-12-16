@@ -17,22 +17,18 @@
     along with RandomFlavorpack.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from django.contrib.auth.models import User
-from django.urls import reverse
-from django.core.management import call_command
-
 import collections
-from rest_framework.test import APITestCase, APIRequestFactory
-from rest_framework import status
-
-from serialbox.utils import get_region_by_machine_name
-
-from random_flavorpack.generators.random import RandomGenerator
 
 import logging
+from django.contrib.auth.models import User, Permission, Group
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase, APIRequestFactory
+
+from random_flavorpack.generators.random import RandomGenerator
 from random_flavorpack.management.commands.load_random_flavorpack_auth import \
     Command
-from django.contrib.auth.models import User, Permission, Group
+from serialbox.utils import get_region_by_machine_name
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('random_unit_tests')
