@@ -30,6 +30,7 @@ python3_6_unit_test:
   image: seriallab/python3.6dev
   stage: test-python
   script:
+    - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR/random_flavorpack
     - pip install -r ./requirements_test.txt
     - python manage.py migrate
     - python manage.py collectstatic --noinput
