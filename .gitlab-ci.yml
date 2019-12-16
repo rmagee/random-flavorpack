@@ -15,8 +15,7 @@ python3_5_unit_test:
   image: seriallab/python3.5dev
   stage: test-python
   script:
-  - git clone git@gitlab.com:serial-lab/serialbox.git ./serialbox
-  - pip install -e ./serialbox
+  - pip install serialbox
   - pip install coverage
   - pip install python-dotenv
   - pip install psycopg2
@@ -34,8 +33,7 @@ python3_6_unit_test:
   image: seriallab/python3.6dev
   stage: test-python
   script:
-  - git clone git@gitlab.com:serial-lab/serialbox.git ./serialbox
-  - pip install -e ./serialbox
+  - pip install serialbox
   - pip install coverage
   - pip install python-dotenv
   - pip install psycopg2
