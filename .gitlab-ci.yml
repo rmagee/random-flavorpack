@@ -41,21 +41,6 @@ python3_6_unit_test:
     paths:
       - htmlcov/
 
-deploy:
-  stage: deploy
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - echo "override the global before script"
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/serial-lab/random-flavorpack:latest .
-    - docker push registry.gitlab.com/serial-lab/random-flavorpack:latest
-  only:
-    - tags
-  environment: production
-
 deploy_pypi:
   image: seriallab/python3.6dev
   stage: deploy
