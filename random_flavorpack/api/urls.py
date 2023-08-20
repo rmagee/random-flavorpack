@@ -1,4 +1,4 @@
-'''
+"""
     Copyright 2018 SerialLab, CORP
 
     This file is part of RandomFlavorpack.
@@ -15,9 +15,9 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with RandomFlavorpack.  If not, see <http://www.gnu.org/licenses/>.
-'''
+"""
 
-from django.conf.urls import url
+from django.urls import re_path
 
 from random_flavorpack.api import viewsets
 from random_flavorpack.api.routers import router
@@ -25,19 +25,19 @@ from random_flavorpack.api.routers import router
 urlpatterns = router.urls
 
 # urlpatterns = [
-#     url(r'^randomized-regions/$',
+#     re_path(r'^randomized-regions/$',
 #         viewsets.randomized_region_list,
 #         name='randomized-region-list'),
-#     url(r'^randomized-region-create/$',
+#     re_path(r'^randomized-region-create/$',
 #         viewsets.randomized_region_create,
 #         name='randomized-region-create'),
-#     url(r'^randomized-region-detail/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
+#     re_path(r'^randomized-region-detail/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
 #         viewsets.randomized_region_detail,
 #         name='randomized-region-detail'),
-#     url(r'^randomized-region-modify/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
+#     re_path(r'^randomized-region-modify/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
 #         viewsets.randomized_region_modify,
 #         name='randomized-region-modify'),
-#     url(r'^randomized-region-form/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
+#     re_path(r'^randomized-region-form/(?P<machine_name>[0-9a-zA-Z]{1,100})/$',
 #         viewsets.randomized_region_form,
 #         name='randomized-region-form'),
 # ]
